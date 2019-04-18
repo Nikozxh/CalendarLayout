@@ -1,88 +1,44 @@
-# CalenderView
-
-An elegant CalendarView on Android platform.
-Freely draw UI with canvas, fast、efficient and low memory.
-Support month view、 week view、year view、 custom week start、lunar calendar and so on.
-Hot plug UI customization!
-You can't think of the calendar can be so elegant!
-
-<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/screen_recorder.gif" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/screen_recorder_main.gif" height="650"/>
-
-<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/screen_recorder_range.gif" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/screen_recorder_multi.gif" height="650"/>
-
-### Gradle
-```
-compile 'com.haibin:calendarview:3.6.1'
-```
-
-```
-<dependency>
-  <groupId>com.haibin</groupId>
-  <artifactId>calendarview</artifactId>
-  <version>3.6.1</version>
-  <type>pom</type>
-</dependency>
-```
-
-# How to use?
-
-[**English Doc**](https://github.com/huanghaibin-dev/CalendarView/blob/master/QUESTION.md)
-
-[**中文使用文档**](https://github.com/huanghaibin-dev/CalendarView/blob/master/QUESTION_ZH.md)
-
-### proguard-rules
-```java
--keepclasseswithmembers class * {
-    public <init>(android.content.Context);
-}
-```
-
-### or using this proguard-rules
+# CalendarLayout
+***
+这是一个轻量级的Android日历控件。拥有良好的可扩展性和美观的用户交互界面。支持月视图、周视图；支持选择日期进行跳转；支持对选定的日期进行自定义渲染。
+![switch_format](switch_format.gif)
+![jump2date](jump2date.gif)
+***
+## CalendarLayout特色功能
+* 对指定日期进行自定义时间处理
 ``` java
--keep class your project path.MonthView {
-    public <init>(android.content.Context);
-}
--keep class your project path.WeekBar {
-    public <init>(android.content.Context);
-}
--keep class your project path.WeekView {
-    public <init>(android.content.Context);
-}
--keep class your project path.YearView {
-    public <init>(android.content.Context);
+/**
+ * @param selectedDate 选中日期
+ * @brief 焦点日期发生跳转执行的回调 */ void onDateSelected(Date selectedDate);
+ ```
+* 对日期进行自定义渲染
+``` java
+/**
+ * @param date 当前日期
+ * @brief 对于日历单元格进行渲染，区域顶部已经绘制完成日历日期 */
+public void onDraw(Canvas canvas, int viewWidth, int viewHeight, Date date) {
 }
 ```
+* 支持查看未来、历史日期，置灰其他日期
+ ``` java
+/**
+ * 时间区间 * */ public enum SelectType{
+  ALL,HISTORY,FUTURE }
 
-### Effect Preview
-
-### func
-<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/main_zh_func.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/main_zh_list.png" height="650"/>
-### YearView and Range Style
-<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/year_view.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/range.png" height="650"/>
-### Beautiful Chinese style
-<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/custom_expand.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/custom_shrink.png" height="650"/>
-### Meizu mobile phone calendar
-<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/meizu_expand.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/meizu_shrink.png" height="650"/>
-### Colorful and Full style
-<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/full_calendar.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/color_expand.png" height="650"/>
-### Progress bar style
-<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/progress_expand.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/progress_shrink.png" height="650"/>
-### Galaxy style
-<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/solar_expand.png" height="650"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/huanghaibin-dev/CalendarView/blob/master/app/src/main/assets/solar_shrink.png" height="650"/>
-
-
-
-## Licenses
-- Copyright (C) 2013 huanghaibin_dev <huanghaibin_dev@163.com>
- 
-- Licensed under the Apache License, Version 2.0 (the "License");
-- you may not use this file except in compliance with the License.
-- You may obtain a copy of the License at
- 
--         http://www.apache.org/licenses/LICENSE-2.0
- 
-- Unless required by applicable law or agreed to in writing, software
-- distributed under the License is distributed on an "AS IS" BASIS,
-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-- See the License for the specific language governing permissions and
-  limitations under the License.
+//调整日历显示置灰区间 calLayout.setSelectType(CalendarLayout.SelectType.ALL);
+```
+* 选择视图显示的第一个周期
+``` 
+/**
+ * 设置日历第一天 * */ public void setFristWeekDay(WeekDays fristWeekDay) {
+  this.mFristWeekDay = fristWeekDay; }
+``` 
+* 日期跳转
+``` java
+/**
+ * @param date 选中的日期
+ * @brief 弹窗选中日期 * */ void onDatePickCompleted(Date date);
+```
+***
+## 感谢 
+# **[PickView](https://github.com/brucetoo/PickView)**
